@@ -7,14 +7,14 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #101827;
-  color: #fff;
+  color: white;
 }
 
 /* CABEÇALHO */
 
 .topbar {
   background: #172438;
-  padding: 18px;
+  padding: 16px 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,20 +28,19 @@ body {
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #ffd34e, #e99b16);
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg,#ffd34e,#e99b16);
   color: #172438;
   display: grid;
   place-items: center;
   border-radius: 12px;
   font-size: 23px;
-  font-weight: 900;
+  font-weight: bold;
 }
 
 .brand h1 {
   margin: 0;
-  font-size: 22px;
   color: #ffd34e;
 }
 
@@ -52,105 +51,108 @@ body {
 .login-btn {
   background: #f3bd35;
   color: #172438;
-  padding: 12px 16px;
+  padding: 12px 18px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 12px;
 }
 
-/* MENU */
+/* MENU HORIZONTAL */
 
 .menu {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  padding: 17px;
   background: #1d2d43;
-  padding: 8px 18px;
+  overflow-x: auto;
 }
 
 .menu a {
   color: white;
   text-decoration: none;
   font-weight: bold;
-  padding: 14px 10px;
-  border-bottom: 1px solid #344761;
+  white-space: nowrap;
 }
 
 .menu a:hover {
   color: #ffd34e;
 }
 
-/* CONTEÚDO */
+/* ESTRUTURA PRINCIPAL */
 
 .container {
-  width: 100%;
-  max-width: 850px;
+  max-width: 1150px;
   margin: auto;
-  padding: 18px;
+  padding: 25px 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
 }
 
-/* DESTAQUE PRINCIPAL */
+.hero,
+.info-grid,
+#pagamento,
+#jogo,
+footer {
+  grid-column: 1 / -1;
+}
+
+/* DESTAQUE */
 
 .hero {
-  width: 100%;
-  padding: 30px 22px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #203c60, #15243a);
+  padding: 35px;
+  border-radius: 18px;
+  background: linear-gradient(120deg,#203c60,#15243a);
   border: 1px solid #344e6e;
-  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .badge {
   color: #ffd34e;
   font-size: 12px;
   font-weight: bold;
-  letter-spacing: 1px;
 }
 
 .hero h2 {
-  font-size: 29px;
-  line-height: 1.4;
-  margin: 16px 0;
+  font-size: 34px;
+  line-height: 1.3;
 }
 
 .hero p {
   color: #c1cede;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .hero-icon {
-  font-size: 55px;
-  margin-top: 15px;
+  font-size: 85px;
 }
 
 .main-btn {
   display: inline-block;
   background: #f3bd35;
   color: #172438;
-  padding: 15px 22px;
+  padding: 14px 20px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  margin-top: 12px;
 }
 
-/* CARTÕES VERTICAIS */
+/* CARTÕES PRINCIPAIS */
 
 .info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin: 22px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
 .info-card {
-  width: 100%;
-  min-height: 110px;
   background: #1b2b40;
   border: 1px solid #304761;
-  border-left: 5px solid #ffd34e;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 14px;
+  padding: 22px;
 }
 
 .info-card span {
@@ -159,38 +161,29 @@ body {
 
 .info-card p {
   color: #aebed1;
-  margin: 10px 0 5px;
 }
 
 .info-card h3 {
   color: #ffd34e;
-  margin: 0;
-  font-size: 22px;
 }
 
 /* SECÇÕES */
 
 .panel {
-  display: block;
-  width: 100%;
   background: #1b2b40;
   border: 1px solid #304761;
   border-radius: 15px;
   padding: 23px;
-  margin: 22px 0;
+  min-width: 0;
 }
 
 .panel h2 {
   color: #ffd34e;
-  font-size: 21px;
-  margin-top: 0;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #40546c;
 }
 
 .panel p {
   color: #d1dbea;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 /* PAGAMENTOS */
@@ -200,70 +193,52 @@ body {
   border: 1px solid #3b5069;
   border-radius: 12px;
   padding: 18px;
-  margin: 16px 0;
+  margin: 15px 0;
 }
 
 .payment-box h3 {
   color: #ffd34e;
-  font-size: 19px;
-}
-
-.payment-box p {
-  margin: 10px 0;
 }
 
 .whatsapp-btn {
   display: block;
-  width: 100%;
   text-align: center;
   background: #159b58;
   color: white;
+  padding: 16px;
+  border-radius: 9px;
   text-decoration: none;
   font-weight: bold;
-  padding: 17px 12px;
-  border-radius: 9px;
-  margin-top: 20px;
-  line-height: 1.5;
 }
 
 /* FORMULÁRIOS */
 
 label {
   display: block;
-  margin-top: 18px;
+  margin-top: 17px;
   font-weight: bold;
 }
 
 input {
-  display: block;
   width: 100%;
-  padding: 16px;
-  margin-top: 10px;
+  padding: 15px;
+  margin-top: 9px;
   border: 1px solid #52677f;
   border-radius: 9px;
   background: #f5f7fa;
   color: #172438;
   font-size: 16px;
-  outline: none;
 }
-
-input:focus {
-  border: 2px solid #ffd34e;
-}
-
-/* BOTÕES */
 
 button {
-  display: block;
   width: 100%;
-  padding: 17px;
-  margin-top: 18px;
+  padding: 16px;
+  margin-top: 16px;
   border: none;
   border-radius: 9px;
-  background: linear-gradient(135deg, #ffd34e, #e9a51b);
+  background: #f3bd35;
   color: #172438;
   font-weight: bold;
-  font-size: 15px;
   cursor: pointer;
 }
 
@@ -272,20 +247,10 @@ button.secondary {
   color: white;
 }
 
-button:hover {
-  opacity: 0.9;
-}
-
-/* RESULTADOS */
-
 #result,
 #status,
 #game {
-  display: block;
-  width: 100%;
   margin-top: 18px;
-  padding: 12px;
-  line-height: 1.8;
   overflow-wrap: anywhere;
 }
 
@@ -293,51 +258,65 @@ button:hover {
 
 footer {
   text-align: center;
-  padding: 35px 18px;
-  margin-top: 35px;
+  padding: 30px;
   background: #172438;
   color: #aebed1;
-  line-height: 1.8;
 }
 
 footer h3 {
   color: #ffd34e;
-  font-size: 23px;
 }
 
 /* TELEMÓVEIS */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
+
   .container {
-    padding: 13px;
+    grid-template-columns: 1fr;
+    padding: 14px;
+    gap: 15px;
   }
 
-  .topbar {
-    padding: 13px;
+  .hero,
+  .info-grid,
+  #pagamento,
+  #jogo,
+  footer {
+    grid-column: 1;
   }
 
-  .brand h1 {
-    font-size: 18px;
-  }
-
-  .login-btn {
-    font-size: 11px;
-    padding: 11px;
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .hero {
-    padding: 23px 18px;
+    padding: 22px;
   }
 
   .hero h2 {
     font-size: 25px;
   }
 
-  .panel {
-    padding: 19px;
+  .hero-icon {
+    font-size: 50px;
   }
 
-  .info-card {
+  .menu {
+    justify-content: flex-start;
+    gap: 22px;
+  }
+
+  .panel {
     padding: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-icon {
+    display: none;
   }
   }
