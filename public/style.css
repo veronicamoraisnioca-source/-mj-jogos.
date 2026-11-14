@@ -124,10 +124,15 @@ body {
 }
 
 .info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   margin: 25px 0;
+  }
+
+.info-card {
+  width: 100%;
+  min-height: 110px;
 }
 
 .info-card, .panel {
