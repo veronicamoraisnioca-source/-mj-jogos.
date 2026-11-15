@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MJ JOGOS - Arcade</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#071426;
+ color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#102b4b;
+ padding:18px;
+ text-align:center;
+ border-bottom:3px solid #ffc928;
+}
+header h1{color:#ffc928;margin:0}
+header p{margin:7px 0 0}
+.container{
+ max-width:1100px;
+ margin:auto;
+ padding:15px;
+}
+.voltar{
+ display:inline-block;
+ color:#ffc928;
+ text-decoration:none;
+ margin:10px 0 20px;
+}
+h2{text-align:center}
+.jogos{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:14px;
+}
+.card{
+ background:#10243c;
+ padding:18px;
+ border-radius:14px;
+ text-align:center;
+}
+.card h3{margin:5px}
+.card button,.btn{
+ background:#ffc928;
+ color:#10243c;
+ border:0;
+ border-radius:8px;
+ padding:12px 18px;
+ font-weight:bold;
+ cursor:pointer;
+ margin:5px;
+}
+.game{
+ display:none;
+ background:#10243c;
+ padding:18px;
+ margin-top:18px;
+ border-radius:14px;
+ text-align:center;
+}
+.game.active{display:block}
+#snake{
+ background:#06101e;
+ border:2px solid #ffc928;
+ max-width:100%;
+}
+#memoryBoard{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+ max-width:380px;
+ margin:15px auto;
+}
+.memory{
+ height:65px;
+ background:#24476a;
+ border:0;
+ border-radius:8px;
+ font-size:27px;
+ cursor:pointer;
+}
+.memory.open{background:#ffc928}
+#tapArea{
+ background:#183b5b;
+ padding:35px 10px;
+ border-radius:12px;
+ margin:15px 0;
+ font-size:20px;
+}
+#tapButton{
+ width:100%;
+ padding:25px;
+ font-size:22px;
+}
+.score{
+ color:#ffc928;
+ font-weight:bold;
+}
+footer{
+ text-align:center;
+ padding:20px;
+ color:#aaa;
+}
+@media(max-width:600px){
+ .jogos{grid-template-columns:1fr}
+ .card{padding:14px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎮 MJ JOGOS ARCADE</h1>
+<p>Diverte-te e bate os teus recordes!</p>
+</header>
+
+<div class="container">
+
+<a href="index.html" class="voltar">← Voltar ao MJ JOGOS</a>
+
+<h2>🔥 Escolhe o teu jogo</h2>
+
+<div class="jogos">
+
+<div class="card">
+<h3>🐍 Snake</h3>
+<p>Come os alimentos e cresce!</p>
+<button onclick="abrir('snakeGame')">Jogar</button>
+</div>
+
+<div class="card">
+<h3>🧠 Memória</h3>
+<p>Encontra todos os pares.</p>
+<button onclick="abrir('memoryGame');novoMemory()">Jogar</button>
+</div>
+
+<div class="card">
+<h3>⚡ Reflexo rápido</h3>
+<p>Testa a velocidade dos teus dedos.</p>
+<button onclick="abrir('tapGame')">Jogar</button>
+</div>
+
+<div class="card">
+<h3>✊ Pedra, Papel ou Tesoura</h3>
+<p>Consegues vencer o computador?</p>
+<button onclick="abrir('rpsGame')">Jogar</button>
+</div>
+
+</div>
+
+<!-- SNAKE -->
+<div class="game" id="snakeGame">
+<h2>🐍 Snake</h2>
+<p>Pontos: <span id="snakeScore" class="score">0</span></p>
+<canvas id="snake" width="300" height="300"></canvas>
+<p>Usa as setas do teclado ou os botões.</p>
+
+<div>
+<button onclick="direcao(0,-1)">⬆️</button><br>
+<button onclick="direcao(-1,0)">⬅️</button>
+<button onclick="direcao(0,1)">⬇️</button>
+<button onclick="direcao(1,0)">➡️</button>
+</div>
+
+<button onclick="iniciarSnake()">Começar novamente</button>
+</div>
+
+<!-- MEMORIA -->
+<div class="game" id="memoryGame">
+<h2>🧠 Jogo da Memória</h2>
+<p>Pares encontrados: <span id="pares" class="score">0</span>/8</p>
+<div id="memoryBoard"></div>
+<button onclick="novoMemory()">Recomeçar</button>
+</div>
+
+<!-- REFLEXO -->
+<div class="game" id="tapGame">
+<h2>⚡ Reflexo Rápido</h2>
+<p id="tapMessage">Carrega em começar e espera o verde.</p>
+<div id="tapArea">🔴 ESPERA</div>
+<button onclick="startTap()">Começar</button>
+<button id="tapButton" onclick="clicarTap()" disabled>CLICA AQUI!</button>
+<p>Tempo: <span id="tapScore" class="score">--</span></p>
+</div>
+
+<!-- PEDRA PAPEL TESOURA -->
+<div class="game" id="rpsGame">
+<h2>✊ Pedra, Papel ou Tesoura</h2>
+<p>Escolhe a tua jogada:</p>
+<button onclick="rps('Pedra')">✊ Pedra</button>
+<button onclick="rps('Papel')">✋ Papel</button>
+<button onclick="rps('Tesoura')">✌️ Tesoura</button>
+<h3 id="rpsResult">Boa sorte!</h3>
+<p id="rpsScore" class="score">Vitórias: 0 | Derrotas: 0 | Empates: 0</p>
+</div>
+
+</div>
+
+<footer>
+MJ JOGOS © 2026 — Diversão para todos!
+</footer>
+
+<script>
+function abrir(id){
+ document.querySelectorAll('.game').forEach(g=>g.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+
+// SNAKE
+const canvas=document.getElementById('snake');
+const ctx=canvas.getContext('2d');
+let cobra,comida,dx,dy,pontos,timer;
+
+function iniciarSnake(){
+ clearInterval(timer);
+ cobra=[{x:150,y:150},{x:140,y:150},{x:130,y:150}];
+ dx=10;dy=0;pontos=0;
+ document.getElementById('snakeScore').textContent=0;
+ criarComida();
+ desenharSnake();
+ timer=setInterval(moverSnake,120);
+}
+
+function criarComida(){
+ comida={
+  x:Math.floor(Math.random()*29)*10,
+  y:Math.floor(Math.random()*29)*10
+ };
+}
+
+function desenharSnake(){
+ ctx.fillStyle='#06101e';
+ ctx.fillRect(0,0,300,300);
+ ctx.fillStyle='#ffc928';
+ cobra.forEach(p=>ctx.fillRect(p.x,p.y,9,9));
+ ctx.fillStyle='#ff4747';
+ ctx.fillRect(comida.x,comida.y,10,10);
+}
+
+function moverSnake(){
+ let cab={x:cobra[0].x+dx,y:cobra[0].y+dy};
+
+ if(cab.x<0||cab.x>=300||cab.y<0||cab.y>=300||
+ cobra.some(p=>p.x===cab.x&&p.y===cab.y)){
+  clearInterval(timer);
+  alert('Fim do jogo! Pontos: '+pontos);
+  return;
+ }
+
+ cobra.unshift(cab);
+
+ if(cab.x===comida.x&&cab.y===comida.y){
+  pontos+=10;
+  document.getElementById('snakeScore').textContent=pontos;
+  criarComida();
+ }else cobra.pop();
+
+ desenharSnake();
+}
+
+function direcao(x,y){
+ if(dx===-x*10&&dy===-y*10)return;
+ if(x!==0||y!==0){dx=x*10;dy=y*10;}
+}
+
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowUp')direcao(0,-1);
+ if(e.key==='ArrowDown')direcao(0,1);
+ if(e.key==='ArrowLeft')direcao(-1,0);
+ if(e.key==='ArrowRight')direcao(1,0);
+});
+
+iniciarSnake();
+clearInterval(timer);
+
+// MEMORIA
+const emojis=['🍎','🍌','🍇','🍓','🍒','🍍','🥝','🍉'];
+let cartas=[],primeira=null,bloqueado=false,pares=0;
+
+function novoMemory(){
+ cartas=[...emojis,...emojis].sort(()=>Math.random()-.5);
+ primeira=null;
+ bloqueado=false;
+ pares=0;
+ document.getElementById('pares').textContent=0;
+
+ const board=document.getElementById('memoryBoard');
+ board.innerHTML='';
+
+ cartas.forEach((emoji,i)=>{
+  const b=document.createElement('button');
+  b.className='memory';
+  b.textContent='❓';
+  b.onclick=()=>virar(b,emoji);
+  board.appendChild(b);
+ });
+}
+
+function virar(botao,emoji){
+ if(bloqueado||botao.classList.contains('open'))return;
+
+ botao.textContent=emoji;
+ botao.classList.add('open');
+
+ if(!primeira){
+  primeira={botao,emoji};
+  return;
+ }
+
+ if(primeira.emoji===emoji){
+  pares++;
+  document.getElementById('pares').textContent=pares;
+  primeira=null;
+  if(pares===8)setTimeout(()=>alert('Parabéns! Encontraste todos os pares!'),300);
+ }else{
+  bloqueado=true;
+  const anterior=primeira;
+  primeira=null;
+  setTimeout(()=>{
+   anterior.botao.textContent='❓';
+   botao.textContent='❓';
+   anterior.botao.classList.remove('open');
+   botao.classList.remove('open');
+   bloqueado=false;
+  },800);
+ }
+}
+
+novoMemory();
+
+// REFLEXO
+let tapTimer=null,tempoInicio=0,pronto=false;
+
+function startTap(){
+ clearTimeout(tapTimer);
+ pronto=false;
+ document.getElementById('tapButton').disabled=true;
+ document.getElementById('tapArea').textContent='🔴 ESPERA...';
+ document.getElementById('tapScore').textContent='--';
+
+ tapTimer=setTimeout(()=>{
+  document.getElementById('tapArea').textContent='🟢 AGORA!';
+  tempoInicio=performance.now();
+  pronto=true;
+  document.getElementById('tapButton').disabled=false;
+ },1500+Math.random()*3000);
+}
+
+function clicarTap(){
+ if(!pronto)return;
+ const tempo=Math.round(performance.now()-tempoInicio);
+ pronto=false;
+ document.getElementById('tapButton').disabled=true;
+ document.getElementById('tapScore').textContent=tempo+' ms';
+ document.getElementById('tapArea').textContent='🎉 Muito bem!';
+}
+
+document.getElementById('tapArea').onclick=()=>{
+ if(!pronto&&document.getElementById('tapArea').textContent==='🔴 ESPERA...'){
+  clearTimeout(tapTimer);
+  document.getElementById('tapArea').textContent='Clicaste cedo demais! Tenta novamente.';
+ }
+};
+
+// PEDRA PAPEL TESOURA
+let vitorias=0,derrotas=0,empates=0;
+
+function rps(escolha){
+ const opcoes=['Pedra','Papel','Tesoura'];
+ const pc=opcoes[Math.floor(Math.random()*3)];
+ let resultado='';
+
+ if(escolha===pc){
+  empates++;
+  resultado='Empate!';
+ }else if(
+  (escolha==='Pedra'&&pc==='Tesoura')||
+  (escolha==='Papel'&&pc==='Pedra')||
+  (escolha==='Tesoura'&&pc==='Papel')
+ ){
+  vitorias++;
+  resultado='🎉 Ganhaste!';
+ }else{
+  derrotas++;
+  resultado='😅 O computador ganhou!';
+ }
+
+ document.getElementById('rpsResult').textContent=
+  'Tu: '+escolha+' | Computador: '+pc+' — '+resultado;
+
+ document.getElementById('rpsScore').textContent=
+  'Vitórias: '+vitorias+' | Derrotas: '+derrotas+' | Empates: '+empates;
+}
+</script>
+
+</body>
+  </html>
