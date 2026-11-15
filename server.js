@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 const DB = path.join(__dirname, "data.json");
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "ALTERE-ESTA-SENHA";
+const ADMIN_PASSWORD = String(process.env.ADMIN_PASSWORD || "ALTERE-ESTA-SENHA").trim();
 const WA = "258852487728";
 const read = () => { try { return JSON.parse(fs.readFileSync(DB,"utf8")); } catch { return {players:[]}; } };
 const write = d => fs.writeFileSync(DB, JSON.stringify(d,null,2));
