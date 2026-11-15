@@ -182,8 +182,7 @@ async function aprovar(id,botao){
 }
 
 function sair(){
- senha="";
- document.getElementById("password").value="";
+ senha=document.getElementById("password").value.trim();
  document.getElementById("dashboard").style.display="none";
  document.getElementById("login").style.display="block";
  document.getElementById("loginMsg").textContent="";
