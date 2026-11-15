@@ -1,135 +1,73 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!DOCTYPE html><html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MJ JOGOS | Plataforma de Jogos</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MJ JOGOS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#101827;color:white;padding:15px}
+header{text-align:center;padding:25px 10px;background:#172b48;border-radius:15px;margin-bottom:18px}
+header h1{color:#ffd43b;margin:0;font-size:32px}
+header p{margin-bottom:0;color:#dce6f5}
+.container{max-width:650px;margin:auto}
+.panel{background:#1b293d;padding:20px;border-radius:14px;margin-bottom:16px}
+h2{color:#ffd43b;margin-top:0}
+label{display:block;margin:12px 0 6px}
+input{width:100%;padding:13px;border:0;border-radius:8px;font-size:16px;margin-bottom:8px}
+button,.whatsapp-btn{display:block;width:100%;padding:14px;background:#ffd43b;color:#172033;border:0;border-radius:8px;font-weight:bold;text-align:center;text-decoration:none;font-size:15px;margin-top:12px;cursor:pointer}
+.secondary{background:#314968;color:white;margin-bottom:8px}
+.payment-box{background:#263d59;padding:15px;border-radius:10px;margin-top:15px;overflow-wrap:anywhere}
+.payment-box h2{font-size:25px}
+.whatsapp-btn{background:#20c76a;color:white}
+.small{font-size:13px;color:#c6d2e1;line-height:1.5}
+#result,#status,#game{margin-top:15px;overflow-wrap:anywhere}
+footer{text-align:center;color:#9eabc0;font-size:12px;padding:15px}
+</style>
 </head>
-<body>
+<body><div class="container"><header>
+<h1>🎮 MJ JOGOS</h1>
+<p>Participa, responde e diverte-te!</p>
+</header><section class="panel">
+<h2>💳 Pagamento da participação</h2>
+<p>Para participar nos jogos, paga <strong>185 MT</strong>.</p><div class="payment-box">
+<h3>📱 M-Pesa</h3>
+<p>Número: <strong>852 487 728</strong></p>
+<p>Código de pagamento: <strong>1265973</strong></p>
+<p>Nome: <strong>DIQUISSON Manuel</strong></p>
+</div><div class="payment-box">
+<h3>📱 e-Mola</h3>
+<p>Número: <strong>852 487 728</strong></p>
+<p>Confirma os dados antes de concluir o pagamento.</p>
+</div><a class="whatsapp-btn" href="https://wa.me/258852487728?text=Ol%C3%A1%2C%20MJ%20Jogos.%20Quero%20confirmar%20o%20meu%20pagamento." target="_blank">
+CONTACTAR PELO WHATSAPP
+</a>
+</section><section class="panel" id="inscricao">
+<h2>📝 Criar inscrição</h2>
+<p>Depois de pagar 185 MT, preenche os teus dados para receber o código de acesso.</p><form id="form">
+<label>Nome completo</label>
+<input id="name" required maxlength="70" placeholder="O teu nome completo"><label>Número de telefone</label>
+<input id="phone" required maxlength="20" placeholder="O teu número de telefone">
 
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">MJ</div>
-    <div>
-      <h1>MJ JOGOS</h1>
-      <small>Desafia a tua mente</small>
-    </div>
-  </div>
-  <a href="#inscricao" class="login-btn">PARTICIPAR</a>
-</header>
-<div style="text-align:center;padding:12px;background:#10243c;">
-  <a href="arcade.html" style="display:inline-block;background:#ffc928;color:#10243c;padding:13px 25px;border-radius:10px;text-decoration:none;font-weight:bold;">
-    🎮 JOGOS ARCADE
-  </a>
-</div>
-<nav class="menu">
-  <a href="#inicio">Início</a>
-  <a href="#pagamento">Pagamentos</a>
-  <a href="#inscricao">Inscrição</a>
-  <a href="#jogo">Jogos</a>
-</nav>
+<button type="submit">JÁ PAGUEI — CONFIRMAR E ENTRAR</button>
 
-<main class="container">
-
-  <section class="hero" id="inicio">
-    <div>
-      <span class="badge">BEM-VINDO AO MJ JOGOS</span>
-      <h2>O teu conhecimento<br>pode levar-te mais longe!</h2>
-      <p>Responde às perguntas, testa a tua inteligência e acompanha os teus resultados.</p>
-      <a href="#inscricao" class="main-btn">COMEÇAR AGORA</a>
-    </div>
-    <div class="hero-icon">🎮</div>
-  </section>
-
-  <section class="info-grid">
-    <div class="info-card">
-      <span>💰</span>
-      <p>Participação</p>
-      <h3>185 MT</h3>
-    </div>
-    <div class="info-card">
-      <span>🧠</span>
-      <p>Desafio</p>
-      <h3>Perguntas</h3>
-    </div>
-    <div class="info-card">
-      <span>🏆</span>
-      <p>Objectivo</p>
-      <h3>Aprender</h3>
-    </div>
-  </section>
-
-  <section class="panel" id="pagamento">
-    <h2>💳 Como fazer o pagamento</h2>
-    <p>Para participar, faz o pagamento de <strong>185 MT</strong>.</p>
-
-    <div class="payment-box">
-      <h3>M-Pesa</h3>
-      <p><strong>Titular:</strong> DIQUISSON Manuel</p>
-      <p><strong>Número:</strong> 852 487 728</p>
-      <p><strong>Valor:</strong> 185 MT</p>
-      <hr>
-      <p><strong>Outra forma de pagamento:</strong></p>
-      <p>Marca <strong>*150#</strong> no teu telefone.</p>
-      <p>Escolhe Pagamentos → opção 1.</p>
-      <p>Introduz o código <strong>1265973</strong> e o valor de 185 MT.</p>
-      <p>Confirma no menu oficial do teu telefone.</p>
-    </div>
-
-    <div class="payment-box">
-      <h3>e-Mola</h3>
-      <p><strong>Número:</strong> 852 487 728</p>
-      <p><strong>Valor:</strong> 185 MT</p>
-      <p>Depois do pagamento, envia o comprovativo pelo WhatsApp.</p>
-    </div>
-
-    <a class="whatsapp-btn" href="https://wa.me/258852487728">
-      ENVIAR COMPROVATIVO PELO WHATSAPP
-    </a>
-  </section>
-
-  <section class="panel" id="inscricao">
-    <h2>📝 Criar inscrição</h2>
-    <p>Preenche os teus dados para começar.</p>
-
-    <form id="form">
-      <label>Nome completo</label>
-      <input id="name" required maxlength="70" placeholder="O teu nome completo">
-
-      <label>Número de telefone</label>
-      <input id="phone" required placeholder="O teu número de telefone">
-
-      <button type="submit">CRIAR INSCRIÇÃO</button>
-    </form>
-    <div id="result"></div>
-  </section>
-
-  <section class="panel">
-    <h2>🔎 Consultar inscrição</h2>
-    <p>Verifica se a tua inscrição já foi aprovada.</p>
-    <input id="check" placeholder="Código de inscrição">
-    <button id="checkBtn" class="secondary">CONSULTAR ESTADO</button>
-    <div id="status"></div>
-  </section>
-
-  <section class="panel" id="jogo">
-    <h2>🎯 Área de jogos</h2>
-    <p>Já tens um código de acesso? Entra aqui.</p>
-    <input id="gameCode" placeholder="Código de acesso">
-    <button id="playBtn">ENTRAR NO JOGO</button>
-    <div id="game"></div>
-  </section>
-
-  <footer>
-    <h3>MJ JOGOS</h3>
-    <p>Desafia a tua mente. Aprende e diverte-te!</p>
-    <small>© 2026 MJ JOGOS. Todos os direitos reservados.</small>
-    <p>O teu PIN M-Pesa/e-Mola é pessoal. Nunca o partilhes.</p>
-  </footer>
-
-</main>
-
-<script src="app.js"></script>
-</body>
-    </html>
+</form><div id="result"></div>
+</section><section class="panel">
+<h2>🔎 Consultar inscrição</h2>
+<p>Introduz o código da inscrição para consultar o acesso.</p>
+<input id="check" placeholder="Código da inscrição">
+<button id="checkBtn">CONSULTAR</button>
+<div id="status"></div>
+</section><section class="panel">
+<h2>🎯 Entrar nos jogos</h2>
+<p>Introduz o teu código de acesso.</p>
+<input id="gameCode" placeholder="Exemplo: MJ123ABC">
+<button id="playBtn">COMEÇAR A JOGAR</button>
+<div id="game"></div>
+</section><section class="panel">
+<h2>🕹️ Jogos de Arcádia</h2>
+<p>Descobre também os nossos jogos de diversão.</p>
+<a class="whatsapp-btn" href="/arcade.html">ABRIR JOGOS DE ARCÁDIA</a>
+</section><footer>
+MJ JOGOS © 2026 — Diverte-te com responsabilidade.
+</footer></div><script src="/app.js"></script></body>
+  </html>
