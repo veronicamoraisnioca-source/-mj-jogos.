@@ -1,137 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MJ JOGOS | Plataforma de Jogos</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MJ JOGOS</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">MJ</div>
-    <div>
-      <h1>MJ JOGOS</h1>
-      <small>Desafia a tua mente</small>
-    </div>
-  </div>
-  <a href="#inscricao" class="login-btn">PARTICIPAR</a>
+<header class="top">
+<a class="logo" href="#inicio">👑 <b>MJ JOGOS</b></a>
+<nav><a href="#inicio">🏠 Início</a><a href="#jogos">🎮 Jogos</a><a href="#ranking">🏆 Ranking</a><a href="#sobre">ℹ️ Sobre</a><a href="#contacto">🎧 Contacto</a></nav>
+<div class="actions"><a class="blue" href="#inscricao">♟ Registar</a><a class="yellow" href="#jogo">🔒 Entrar</a></div>
 </header>
-
-<div style="text-align:center;padding:12px;background:#10243c;">
-  <a href="arcade.html" style="display:inline-block;background:#ffc928;color:#10243c;padding:13px 25px;border-radius:10px;text-decoration:none;font-weight:bold;">
-    🎮 JOGOS ARCADE
-  </a>
-</div>
-
-<nav class="menu">
-  <a href="#inicio">Início</a>
-  <a href="#pagamento">Pagamentos</a>
-  <a href="#inscricao">Inscrição</a>
-  <a href="#jogo">Jogos</a>
-</nav>
-
-<main class="container">
-
-  <section class="hero" id="inicio">
-    <div>
-      <span class="badge">BEM-VINDO AO MJ JOGOS</span>
-      <h2>O teu conhecimento<br>pode levar-te mais longe!</h2>
-      <p>Responde às perguntas, testa a tua inteligência e acompanha os teus resultados.</p>
-      <a href="#inscricao" class="main-btn">COMEÇAR AGORA</a>
-    </div>
-    <div class="hero-icon">🎮</div>
-  </section>
-
-  <section class="info-grid">
-    <div class="info-card">
-      <span>💰</span>
-      <p>Participação</p>
-      <h3>185 MT</h3>
-    </div>
-    <div class="info-card">
-      <span>🧠</span>
-      <p>Desafio</p>
-      <h3>Perguntas</h3>
-    </div>
-    <div class="info-card">
-      <span>🏆</span>
-      <p>Objectivo</p>
-      <h3>Aprender</h3>
-    </div>
-  </section>
-
-  <section class="panel" id="pagamento">
-    <h2>💳 Como fazer o pagamento</h2>
-    <p>Para participar, faz o pagamento de <strong>185 MT</strong>.</p>
-
-    <div class="payment-box">
-      <h3>M-Pesa</h3>
-      <p><strong>Titular:</strong> DIQUISSON Manuel</p>
-      <p><strong>Número:</strong> 852 487 728</p>
-      <p><strong>Valor:</strong> 185 MT</p>
-      <hr>
-      <p><strong>Outra forma de pagamento:</strong></p>
-      <p>Marca <strong>*150#</strong> no teu telefone.</p>
-      <p>Escolhe Pagamentos → opção 1.</p>
-      <p>Introduz o código <strong>1265973</strong> e o valor de 185 MT.</p>
-      <p>Confirma no menu oficial do teu telefone.</p>
-    </div>
-
-    <div class="payment-box">
-      <h3>e-Mola</h3>
-      <p><strong>Número:</strong> 852 487 728</p>
-      <p><strong>Valor:</strong> 185 MT</p>
-      <p>Depois do pagamento, envia o comprovativo pelo WhatsApp.</p>
-    </div>
-
-    <a class="whatsapp-btn" href="https://wa.me/258852487728">
-      ENVIAR COMPROVATIVO PELO WHATSAPP
-    </a>
-  </section>
-
-  <section class="panel" id="inscricao">
-    <h2>📝 Criar inscrição</h2>
-    <p>Preenche os teus dados para começar.</p>
-
-    <form id="form">
-      <label>Nome completo</label>
-      <input id="name" required maxlength="70" placeholder="O teu nome completo">
-
-      <label>Número de telefone</label>
-      <input id="phone" required placeholder="O teu número de telefone">
-
-      <button type="submit">CRIAR INSCRIÇÃO</button>
-    </form>
-    <div id="result"></div>
-  </section>
-
-  <section class="panel">
-    <h2>🔎 Consultar inscrição</h2>
-    <p>Verifica se a tua inscrição já foi aprovada.</p>
-    <input id="check" placeholder="Código de inscrição">
-    <button id="checkBtn" class="secondary">CONSULTAR ESTADO</button>
-    <div id="status"></div>
-  </section>
-
-  <section class="panel" id="jogo">
-    <h2>🎯 Área de jogos</h2>
-    <p>Já tens um código de acesso? Entra aqui.</p>
-    <input id="gameCode" placeholder="Código de acesso">
-    <button id="playBtn">ENTRAR NO JOGO</button>
-    <div id="game"></div>
-  </section>
-
-  <footer>
-    <h3>MJ JOGOS</h3>
-    <p>Desafia a tua mente. Aprende e diverte-te!</p>
-    <small>© 2026 MJ JOGOS. Todos os direitos reservados.</small>
-    <p>O teu PIN M-Pesa/e-Mola é pessoal. Nunca o partilhes.</p>
-  </footer>
-
-</main>
-
-<script src="app.js"></script>
-</body>
-  </html>
+<main class="wrap">
+<section class="hero" id="inicio"><div class="joker">🃏</div><div class="hero-brand"><div>👑</div><h1><span>MJ</span><br>JOGOS</h1><b>Jogue • Responda • Divirta-se!</b></div><div class="slogan"><h2>Mostre o seu conhecimento e seja <em>o melhor!</em></h2><strong>Diversão garantida<br>para todos!</strong></div></section>
+<section class="categories"><a href="#jogos">🧠<small>Conhecimentos<br>Gerais</small></a><a href="#jogos">🌍<small>Geografia</small></a><a href="#jogos">🇲🇿<small>Cultura<br>Moçambicana</small></a><a href="#jogos">⚽<small>Desporto</small></a><a href="#jogos">📖<small>Português</small></a><a href="#jogos">⚗️<small>Ciência e<br>Tecnologia</small></a><a href="#jogos">🏛️<small>História</small></a><a href="#jogos">🏆<small>Desafios<br>Especiais</small></a></section>
+<section id="jogos" class="games"><h2>⭐ NOSSOS JOGOS ⭐</h2><div class="cards">
+<a href="#jogo" class="card c1"><i>🧠</i><b>QUIZ DE<br>CONHECIMENTOS<br>GERAIS</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c2"><i>🌍</i><b>DESAFIO DE<br>GEOGRAFIA</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c3"><i>🇲🇿</i><b>CULTURA DE<br>MOÇAMBIQUE</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c4"><i>⚽</i><b>QUIZ DE<br>DESPORTO</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c5"><i>📚</i><b>DESAFIO DE<br>PORTUGUÊS</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c6"><i>🧪</i><b>CIÊNCIA E<br>TECNOLOGIA</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c7"><i>🏛️</i><b>HISTÓRIA</b><small>Jogar Agora ▶</small></a>
+<a href="#jogo" class="card c8"><i>🏆</i><b>DESAFIOS<br>ESPECIAIS</b><small>Jogar Agora ▶</small></a></div></section>
+<section class="info" id="sobre">
+<div><h3>🔵 Como Começar?</h3><ol><li>Faça o seu registo no site.</li><li>Realize o pagamento de 185 MT.</li><li>Envie a mensagem de confirmação.</li><li>Guarde o código de acesso recebido.</li><li>Comece a jogar e divirta-se!</li></ol></div>
+<div id="pagamento"><h3>💳 Formas de Pagamento</h3><div class="paygrid"><article><b class="green">Via M-Pesa:</b><p>Digite *150#<br>Vá para 6 - Pagamentos<br>Escolha 1<br>Digite o código 1265973<br>Insira o valor de 185 MT<br>Confirme com o seu PIN.</p></article><article><b class="orange">Via e-Mola:</b><p>Faça a transferência para o número:</p><strong class="number">852487728</strong></article></div><p>Titular M-Pesa: DIQUISSON Manuel</p></div>
+<div id="contacto"><h3>🟢 O Nosso Contacto</h3><p>Para mais informações fale connosco pelo WhatsApp:</p><a class="whatsapp" href="https://wa.me/258852487728">☏ 852487728</a><em>Estamos sempre consigo!</em><a class="proof" href="https://wa.me/258852487728">ENVIAR COMPROVATIVO PELO WHATSAPP</a></div>
+</section>
+<section class="forms">
+<section class="panel" id="inscricao"><h2>📝 Criar inscrição</h2><p>Preenche os teus dados. Participação: <b>185 MT</b>.</p><form id="form"><label>Nome completo</label><input id="name" required maxlength="70" placeholder="O teu nome completo"><label>Número de telefone</label><input id="phone" required placeholder="O teu número de telefone"><button type="submit">CRIAR INSCRIÇÃO</button></form><div id="result"></div></section>
+<section class="panel"><h2>🔎 Consultar inscrição</h2><p>Verifica o estado da tua inscrição.</p><input id="check" placeholder="Código de inscrição"><button id="checkBtn" class="secondary">CONSULTAR ESTADO</button><div id="status"></div></section>
+<section class="panel" id="jogo"><h2>🎯 Área de jogos</h2><p>Já tens um código de acesso? Entra aqui.</p><input id="gameCode" placeholder="Código de acesso"><button id="playBtn">ENTRAR NO JOGO</button><div id="game"></div><a class="arcade" href="arcade.html">🎮 JOGOS ARCADE</a></section>
+</section>
+<footer><b>👑 MJ JOGOS</b><span>🛡️ Jogue com responsabilidade!</span><small>© 2026 MJ Jogos. Todos os direitos reservados. 🇲🇿</small><p>O teu PIN M-Pesa/e-Mola é pessoal. Nunca o partilhes.</p></footer>
+</main><script src="app.js"></script></body></html>
