@@ -3,239 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administração - MJ JOGOS</title>
+<title>Painel Administrativo - MJ JOGOS</title>
 
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#071426;
- color:white;
- padding:18px;
+  margin:0;
+  padding:15px;
+  background:#0b1728;
+  color:white;
+  font-family:Arial,sans-serif;
 }
-.container{max-width:950px;margin:auto}
-header{
- background:#102b4b;
- padding:20px;
- border-radius:14px;
- text-align:center;
- margin-bottom:18px;
-}
-h1{color:#ffc928;margin:0}
+.container{max-width:850px;margin:auto}
+h1{text-align:center;color:#ffc928}
 .card{
- background:#10243c;
- padding:18px;
- border-radius:12px;
- margin-bottom:15px;
+  background:#142943;
+  padding:16px;
+  border-radius:12px;
+  margin-bottom:15px;
 }
 input{
- width:100%;
- padding:13px;
- border:1px solid #34516d;
- border-radius:8px;
- background:#071426;
- color:white;
- margin:8px 0;
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:8px;
+  margin:8px 0;
 }
 button{
- border:0;
- padding:12px 17px;
- border-radius:8px;
- background:#ffc928;
- color:#10243c;
- font-weight:bold;
- cursor:pointer;
+  padding:12px;
+  border:0;
+  border-radius:8px;
+  background:#ffc928;
+  color:#10243c;
+  font-weight:bold;
+  cursor:pointer;
 }
-button:disabled{opacity:.5}
-.approve{background:#16c784}
-.reject{background:#e34b4b;color:white}
+.login button{width:100%}
 .player{
- background:#183553;
- padding:14px;
- border-radius:10px;
- margin:10px 0;
+  background:#203b5b;
+  padding:13px;
+  border-radius:9px;
+  margin:10px 0;
 }
 .player p{margin:7px 0}
-#message{margin-top:12px;color:#ffc928}
-.hidden{display:none}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
+.pending{color:#ffcc55}
+.approved{color:#61e99a}
+.logout{background:#e74c3c;color:white}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<header>
-<h1>MJ JOGOS</h1>
-<p>Painel do Administrador</p>
-</header>
+<h1>🎮 MJ JOGOS</h1>
+<h2 style="text-align:center">Painel de Aprovação</h2>
 
-<div class="card" id="login">
-<h2>🔐 Acesso administrativo</h2>
-<input type="password" id="password"
-placeholder="Digite a senha de administrador">
-<button onclick="entrar()">Entrar</button>
-<p id="message"></p>
+<div class="card login" id="login">
+<h3>Entrada do Administrador</h3>
+<input type="password" id="password" placeholder="Senha de administrador">
+<button onclick="entrar()">ENTRAR</button>
+<p id="loginMsg"></p>
 </div>
 
-<div id="dashboard" class="hidden">
-
+<div id="dashboard" style="display:none">
 <div class="card">
-<h2>📋 Inscrições dos jogadores</h2>
-<button onclick="carregar()">Atualizar lista</button>
-<button onclick="sair()">Sair</button>
-<p id="status"></p>
-</div>
-
-<div id="players"></div>
-
-</div>
-</div>
-
-<script>
-let adminPassword = "";
-
-async function entrar(){
- const senha = document.getElementById("password").value;
- const msg = document.getElementById("message");
-
- if(!senha){
-  msg.textContent="Digite a senha.";
-  return;
- }
-
- adminPassword=senha;
-
- try{
-  const r=await fetch("/api/admin/players",{
-   headers:{
-    "Authorization":"Bearer "+adminPassword
-   }
-  });
-
-  const data=await r.json();
-
-  if(!r.ok){
-   adminPassword="";
-   msg.textContent="Senha incorreta ou acesso recusado.";
-   return;
-  }
-
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
-  mostrarJogadores(data);
-
- }catch(e){
-  msg.textContent="Erro ao ligar ao servidor.";
- }
-}
-
-async function carregar(){
- const status=document.getElementById("status");
- status.textContent="A carregar inscrições...";
-
- try{
-  const r=await fetch("/api/admin/players",{
-   headers:{
-    "Authorization":"Bearer "+adminPassword
-   }
-  });
-
-  const data=await r.json();
-
-  if(!r.ok){
-   status.textContent="Acesso recusado.";
-   return;
-  }
-
-  status.textContent="Lista atualizada.";
-  mostrarJogadores(data);
-
- }catch(e){
-  status.textContent="Erro ao carregar jogadores.";
- }
-}
-
-function escapar(valor){
- return String(valor??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",
-  '"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-function mostrarJogadores(data){
- const lista=document.getElementById("players");
- const jogadores=Array.isArray(data)?data:
-  (data.players||data.jogadores||[]);
-
- if(!jogadores.length){
-  lista.innerHTML='<div class="card">Nenhuma inscrição encontrada.</div>';
-  return;
- }
-
- lista.innerHTML=jogadores.map(p=>{
-  const id=escapar(p.id);
-  const nome=escapar(p.name||p.nome);
-  const telefone=escapar(p.phone||p.telefone);
-  const estado=escapar(p.status);
-  const codigo=escapar(p.accessCode||"");
-
-  return `
-   <div class="player">
-    <h3>${nome||"Jogador"}</h3>
-    <p><b>Telefone:</b> ${telefone}</p>
-    <p><b>Inscrição:</b> ${id}</p>
-    <p><b>Estado:</b> ${estado}</p>
-    ${codigo?`<p><b>Código:</b> ${codigo}</p>`:""}
-    ${p.status==="pending"?`
-     <div class="actions">
-      <button class="approve" onclick="aprovar('${id}')">
-       Aprovar jogador
-      </button>
-     </div>
-    `:""}
-   </div>
-  `;
- }).join("");
-}
-
-async function aprovar(id){
- if(!confirm("Confirmas que verificaste o pagamento deste jogador?"))return;
-
- try{
-  const r=await fetch("/api/admin/approve",{
-   method:"POST",
-   headers:{
-    "Content-Type":"application/json",
-    "Authorization":"Bearer "+adminPassword
-   },
-   body:JSON.stringify({id})
-  });
-
-  const data=await r.json();
-
-  if(!r.ok){
-   alert(data.error||"Não foi possível aprovar.");
-   return;
-  }
-
-  alert("Jogador aprovado com sucesso!");
-  carregar();
-
- }catch(e){
-  alert("Erro de ligação ao servidor.");
- }
-}
-
-function sair(){
- adminPassword="";
- document.getElementById("dashboard").classList.add("hidden");
- document.getElementById("login").classList.remove("hidden");
- document.getElementById("password").value="";
- document.getElementById("players").innerHTML="";
- document.getElementById("message").textContent="";
-}
-</script>
-</body>
-  </html>
+<h3>Gestão de Inscrições</h3>
+<button onclick
