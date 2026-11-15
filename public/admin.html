@@ -2,53 +2,23 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Administrativo - MJ JOGOS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administração - MJ JOGOS</title>
 
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  padding:15px;
-  background:#0b1728;
-  color:white;
-  font-family:Arial,sans-serif;
-}
-.container{max-width:850px;margin:auto}
+body{margin:0;padding:15px;background:#0b1728;color:white;font-family:Arial}
+.container{max-width:800px;margin:auto}
 h1{text-align:center;color:#ffc928}
-.card{
-  background:#142943;
-  padding:16px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-input{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:8px;
-  margin:8px 0;
-}
-button{
-  padding:12px;
-  border:0;
-  border-radius:8px;
-  background:#ffc928;
-  color:#10243c;
-  font-weight:bold;
-  cursor:pointer;
-}
+.card{background:#142943;padding:16px;border-radius:12px;margin:12px 0}
+input{width:100%;padding:14px;border:0;border-radius:8px;margin:10px 0}
+button{padding:12px;border:0;border-radius:8px;background:#ffc928;color:#10243c;font-weight:bold;cursor:pointer}
 .login button{width:100%}
-.player{
-  background:#203b5b;
-  padding:13px;
-  border-radius:9px;
-  margin:10px 0;
-}
-.player p{margin:7px 0}
+.player{background:#203b5b;padding:14px;border-radius:9px;margin:10px 0}
 .pending{color:#ffcc55}
 .approved{color:#61e99a}
 .logout{background:#e74c3c;color:white}
+#loginMsg{color:#ffcc55;overflow-wrap:anywhere}
 </style>
 </head>
 
@@ -58,14 +28,167 @@ button{
 <h1>🎮 MJ JOGOS</h1>
 <h2 style="text-align:center">Painel de Aprovação</h2>
 
-<div class="card login" id="login">
+<div class="card" id="login">
 <h3>Entrada do Administrador</h3>
 <input type="password" id="password" placeholder="Senha de administrador">
-<button onclick="entrar()">ENTRAR</button>
+<button id="loginBtn" onclick="entrar()">ENTRAR</button>
 <p id="loginMsg"></p>
 </div>
 
 <div id="dashboard" style="display:none">
 <div class="card">
 <h3>Gestão de Inscrições</h3>
-<button onclick
+<p id="total"></p>
+<button onclick="carregar()">ATUALIZAR</button>
+<button class="logout" onclick="sair()">SAIR</button>
+</div>
+<div id="lista"></div>
+</div>
+
+</div>
+
+<script>
+let senha="";
+
+async function entrar(){
+ senha=document.getElementById("password").value;
+ const msg=document.getElementById("loginMsg");
+ const btn=document.getElementById("loginBtn");
+
+ if(!senha.trim()){
+  msg.textContent="Introduza a senha.";
+  return;
+ }
+
+ btn.disabled=true;
+ msg.textContent="A verificar acesso...";
+
+ try{
+  const r=await fetch("/api/admin/players",{
+   headers:{"Authorization":"Bearer "+senha}
+  });
+
+  if(!r.ok){
+   msg.textContent="Acesso recusado. Verifique a senha configurada no Render.";
+   senha="";
+   return;
+  }
+
+  const jogadores=await r.json();
+  document.getElementById("login").style.display="none";
+  document.getElementById("dashboard").style.display="block";
+  mostrar(jogadores);
+
+ }catch(e){
+  msg.textContent="Erro de ligação. Tente novamente.";
+ }finally{
+  btn.disabled=false;
+ }
+}
+
+async function carregar(){
+ try{
+  const r=await fetch("/api/admin/players",{
+   headers:{"Authorization":"Bearer "+senha}
+  });
+  if(!r.ok){alert("Não foi possível carregar as inscrições.");return;}
+  mostrar(await r.json());
+ }catch(e){
+  alert("Erro de ligação ao servidor.");
+ }
+}
+
+function mostrar(jogadores){
+ const lista=document.getElementById("lista");
+ lista.innerHTML="";
+
+ const pendentes=jogadores.filter(p=>p.status==="pending").length;
+ const aprovados=jogadores.filter(p=>p.status==="approved").length;
+
+ document.getElementById("total").textContent=
+ "Total: "+jogadores.length+" | Pendentes: "+pendentes+" | Aprovados: "+aprovados;
+
+ if(!jogadores.length){
+  lista.textContent="Ainda não existem inscrições.";
+  return;
+ }
+
+ jogadores.forEach(p=>{
+  const div=document.createElement("div");
+  div.className="player";
+
+  const nome=document.createElement("h3");
+  nome.textContent=p.name;
+
+  const telefone=document.createElement("p");
+  telefone.textContent="Telefone: "+p.phone;
+
+  const estado=document.createElement("p");
+  estado.className=p.status==="approved"?"approved":"pending";
+  estado.textContent=p.status==="approved"?"APROVADO":"PENDENTE";
+
+  div.append(nome,telefone,estado);
+
+  if(p.status==="pending"){
+   const botao=document.createElement("button");
+   botao.textContent="APROVAR JOGADOR";
+   botao.onclick=()=>aprovar(p.id,botao);
+   div.appendChild(botao);
+  }
+
+  if(p.accessCode){
+   const codigo=document.createElement("p");
+   codigo.textContent="Código: "+p.accessCode;
+   div.appendChild(codigo);
+  }
+
+  lista.appendChild(div);
+ });
+}
+
+async function aprovar(id,botao){
+ if(!confirm("Já confirmou o pagamento deste jogador?"))return;
+
+ botao.disabled=true;
+ botao.textContent="A aprovar...";
+
+ try{
+  const r=await fetch("/api/admin/approve",{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "Authorization":"Bearer "+senha
+   },
+   body:JSON.stringify({id})
+  });
+
+  const dados=await r.json();
+
+  if(!r.ok){
+   alert(dados.error||"Erro ao aprovar.");
+   botao.disabled=false;
+   botao.textContent="APROVAR JOGADOR";
+   return;
+  }
+
+  alert("Jogador aprovado!");
+  carregar();
+
+ }catch(e){
+  alert("Erro de ligação.");
+  botao.disabled=false;
+  botao.textContent="APROVAR JOGADOR";
+ }
+}
+
+function sair(){
+ senha="";
+ document.getElementById("password").value="";
+ document.getElementById("dashboard").style.display="none";
+ document.getElementById("login").style.display="block";
+ document.getElementById("loginMsg").textContent="";
+}
+</script>
+
+</body>
+</html>
