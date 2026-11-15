@@ -17,6 +17,22 @@ app.post("/api/register",(req,res)=>{
   const db=read(); const id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);
   db.players.push({id,name:String(name).slice(0,70),phone:String(phone).slice(0,20),status:"pending",created:new Date().toISOString()});
   write(db); res.json({ok:true,id,whatsapp:`https://wa.me/${WA}?text=${encodeURIComponent("Olá, MJ Jogos. Sou "+name+". Já fiz o pagamento de 185 MT. Peço a confirmação da minha participação. Código de inscrição: "+id)}`});
+});app.get("/aprovar/:id", (req, res) => {
+  const secret = req.query.token;
+  if (!APPROVAL_SECRET || secret !== APPROVAL_SECRET) {
+    return res.status(403).send("Acesso não autorizado.");
+  }
+
+  const db = read();
+  const p = db.players.find(x => x.id === req.params.id);
+
+  if (!p) return res.status(404).send("Inscrição não encontrada.");
+
+  p.status = "approved";
+  p.accessCode = p.accessCode || "MJ" + Math.random().toString(36).slice(2,8).toUpperCase();
+  write(db);
+
+  res.send("Inscrição aprovada! Código de acesso: " + p.accessCode);
 });
 app.get("/api/status/:id",(req,res)=>{
  const p=read().players.find(x=>x.id===req.params.id);
