@@ -2,7 +2,21 @@ const $ = id => document.getElementById(id);
 
 $("form").addEventListener("submit", async e => {
   e.preventDefault();
-  $("result").textContent = "A registar a tua inscrição...";
+  const file = $("proof").files[0];
+  if (!file) {
+    $("result").textContent = "Seleciona a captura da mensagem de confirmação.";
+    return;
+  }
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    $("result").textContent = "Seleciona uma imagem JPG, PNG ou WEBP.";
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    $("result").textContent = "A captura deve ter no máximo 5 MB.";
+    return;
+  }
+
+  $("result").textContent = "A criar a inscrição...";
   try {
     const r = await fetch("/api/register", {
       method: "POST",
@@ -11,17 +25,21 @@ $("form").addEventListener("submit", async e => {
     });
     const d = await r.json();
     if (!r.ok) throw Error(d.error || "Erro ao criar inscrição.");
+
     $("check").value = d.id;
     $("result").innerHTML = `
       <div class="payment-box">
-        <h3>🕒 Inscrição recebida!</h3>
-        <p>O teu pagamento ainda precisa de ser confirmado pelo MJ JOGOS.</p>
-        <p>Guarda o código da inscrição:</p>
-        <h2>${d.id}</h2>
-        <a class="whatsapp-btn" target="_blank" rel="noopener" href="${d.whatsapp}">ENVIAR CONFIRMAÇÃO PELO WHATSAPP</a>
-        <p>Depois de abrir o WhatsApp, carrega em ENVIAR.</p>
-        <p>O código para jogar só será disponibilizado depois da confirmação do pagamento.</p>
+        <h3>🕒 Inscrição criada!</h3>
+        <p>O comprovativo não foi enviado nem guardado no site.</p>
+        <p>Referência da inscrição:</p><h2>${String(d.id).replace(/[&<>"']/g, "")}</h2>
+        <p>O WhatsApp vai abrir. Anexa manualmente a captura selecionada e envia a mensagem.</p>
+        <a class="whatsapp-btn" target="_blank" rel="noopener" href="${d.whatsapp}">ABRIR WHATSAPP E ENVIAR COMPROVATIVO</a>
+        <p>Se o WhatsApp não abrir, usa o número 852 487 728 e informa a referência acima.</p>
+        <p>A inscrição só será aprovada depois de confirmar o recebimento real do pagamento.</p>
       </div>`;
+    const whatsappUrl = d.whatsapp;
+    window.open(whatsappUrl, "_blank", "noopener");
+    $("form").reset();
   } catch (err) {
     $("result").textContent = err.message;
   }
@@ -36,7 +54,9 @@ $("checkBtn").addEventListener("click", async () => {
     if (!r.ok) throw Error(d.error || "Não foi possível consultar.");
     $("status").textContent = d.status === "approved"
       ? "Pagamento confirmado! O teu código de acesso é: " + d.accessCode
-      : "Inscrição pendente. Aguarda a confirmação do pagamento.";
+      : d.status === "blocked"
+        ? "Inscrição bloqueada. Contacte o suporte."
+        : "Inscrição pendente. Aguarda a confirmação do pagamento.";
   } catch (err) { $("status").textContent = err.message; }
 });
 
@@ -65,4 +85,4 @@ $("playBtn").addEventListener("click", async () => {
     show();
   } catch (err) { box.textContent = err.message; }
 });
-     
+        
