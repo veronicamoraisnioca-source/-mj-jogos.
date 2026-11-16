@@ -235,3 +235,4 @@ app.get("/api/play/:code", (req, res) => {
 });
 
 app.listen(PORT, () => console.log("MJ Jogos ativo na porta " + PORT));
+    
