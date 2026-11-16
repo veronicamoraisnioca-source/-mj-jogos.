@@ -9,6 +9,8 @@
 .welcome-bonus h2{margin:12px 0 6px;color:#ffe28a;font-size:clamp(23px,5vw,34px);font-weight:900}
 .welcome-bonus .bonus-amount{display:block;margin:8px 0;color:#fff;font-size:clamp(38px,9vw,58px);font-weight:1000;text-shadow:0 2px 12px rgba(0,0,0,.45)}
 .welcome-bonus p{margin:7px auto 0;max-width:700px;line-height:1.5;color:#fff4d2}
+.proof-instructions{margin:14px 0;padding:15px;border:1px solid #f5c542;border-radius:12px;background:#fff7dc;color:#302000;line-height:1.5}
+#proof{display:block;width:100%;padding:12px;border:1px dashed #f5c542;border-radius:10px;background:#fff;color:#111}
 </style>
 </head>
 <body>
@@ -19,14 +21,11 @@
 </header>
 <main class="wrap">
 <section class="hero" id="inicio"><div class="joker">🃏</div><div class="hero-brand"><div>👑</div><h1><span>MJ</span><br>JOGOS</h1><b>Jogue • Responda • Divirta-se!</b></div><div class="slogan"><h2>Mostre o seu conhecimento e seja <em>o melhor!</em></h2><strong>Diversão garantida<br>para todos!</strong></div></section>
-
 <section class="welcome-bonus" aria-label="Bónus de primeiro registo">
-<div class="bonus-tag">🎁 BÓNUS DE BOAS-VINDAS</div>
-<h2>FAÇA O SEU PRIMEIRO REGISTO E RECEBA</h2>
+<div class="bonus-tag">🎁 BÓNUS DE BOAS-VINDAS</div><h2>FAÇA O SEU PRIMEIRO REGISTO E CONSULTE AS CONDIÇÕES</h2>
 <span class="bonus-amount">1.000 MT</span>
-<p>Em dinheiro real na sua conta! Promoção destinada a todos os novos jogadores no primeiro registo, após a confirmação do pagamento e validação da inscrição.</p>
+<p>Consulte as condições oficiais da promoção. O envio do comprovativo não garante aprovação nem pagamento de bónus. A inscrição depende da verificação do pagamento e das regras aplicáveis.</p>
 </section>
-
 <section class="categories"><a href="#jogos">🧠<small>Conhecimentos<br>Gerais</small></a><a href="#jogos">🌍<small>Geografia</small></a><a href="#jogos">🇲🇿<small>Cultura<br>Moçambicana</small></a><a href="#jogos">⚽<small>Desporto</small></a><a href="#jogos">📖<small>Português</small></a><a href="#jogos">⚗️<small>Ciência e<br>Tecnologia</small></a><a href="#jogos">🏛️<small>História</small></a><a href="#jogos">🏆<small>Desafios<br>Especiais</small></a></section>
 <section id="jogos" class="games"><h2>⭐ NOSSOS JOGOS ⭐</h2><div class="cards">
 <a href="#jogo" class="card c1"><i>🧠</i><b>QUIZ DE<br>CONHECIMENTOS<br>GERAIS</b><small>Jogar Agora ▶</small></a>
@@ -38,14 +37,23 @@
 <a href="#jogo" class="card c7"><i>🏛️</i><b>HISTÓRIA</b><small>Jogar Agora ▶</small></a>
 <a href="#jogo" class="card c8"><i>🏆</i><b>DESAFIOS<br>ESPECIAIS</b><small>Jogar Agora ▶</small></a></div></section>
 <section class="info" id="sobre">
-<div><h3>🔵 Como Começar?</h3><ol><li>Faça o seu registo no site.</li><li>Realize o pagamento de 185 MT.</li><li>Envie a mensagem de confirmação.</li><li>Guarde o código de acesso recebido.</li><li>Comece a jogar e divirta-se!</li></ol></div>
+<div><h3>🔵 Como Começar?</h3><ol><li>Faça o seu registo no site.</li><li>Realize o pagamento de 185 MT.</li><li>Anexe a captura da mensagem de confirmação no WhatsApp.</li><li>Aguarde a verificação do pagamento.</li><li>Após aprovação, use o código de acesso.</li></ol></div>
 <div id="pagamento"><h3>💳 Formas de Pagamento</h3><div class="paygrid"><article><b class="green">Via M-Pesa:</b><p>Digite *150#<br>Vá para 6 - Pagamentos<br>Escolha 1<br>Digite o código 1265973<br>Insira o valor de 185 MT<br>Confirme com o seu PIN.</p></article><article><b class="orange">Via e-Mola:</b><p>Faça a transferência para o número:</p><strong class="number">852487728</strong></article></div><p>Titular M-Pesa: DIQUISSON Manuel</p></div>
-<div id="contacto"><h3>🟢 O Nosso Contacto</h3><p>Para mais informações fale connosco pelo WhatsApp:</p><a class="whatsapp" href="https://wa.me/258852487728">☏ 852487728</a><em>Estamos sempre consigo!</em><a class="proof" href="https://wa.me/258852487728">ENVIAR COMPROVATIVO PELO WHATSAPP</a></div>
+<div id="contacto"><h3>🟢 O Nosso Contacto</h3><p>Para mais informações fale connosco pelo WhatsApp:</p><a class="whatsapp" href="https://wa.me/258852487728">☏ 852487728</a><em>Estamos sempre consigo!</em><a class="proof" href="https://wa.me/258852487728">CONTACTAR PELO WHATSAPP</a></div>
 </section>
 <section class="forms">
-<section class="panel" id="inscricao"><h2>📝 Criar inscrição</h2><p>Preenche os teus dados. Participação: <b>185 MT</b>.</p><form id="form"><label>Nome completo</label><input id="name" required maxlength="70" placeholder="O teu nome completo"><label>Número de telefone</label><input id="phone" required placeholder="O teu número de telefone"><button type="submit">CRIAR INSCRIÇÃO</button></form><div id="result"></div></section>
+<section class="panel" id="inscricao"><h2>📝 Criar inscrição</h2><p>Preenche os teus dados e prepara a captura da confirmação do pagamento de <b>185 MT</b>.</p>
+<div class="proof-instructions"><b>⚠️ Para continuar:</b><br>Efetua o pagamento de 185 MT. Depois de criares a inscrição, o WhatsApp será aberto com a mensagem de confirmação. Anexa manualmente a captura de ecrã da mensagem recebida no M-Pesa ou e-Mola e envia-a. <b>Não envies o teu PIN.</b> A imagem não será guardada no site e o seu envio não confirma automaticamente o pagamento.</div>
+<form id="form">
+<label for="name">Nome completo</label><input id="name" required maxlength="70" placeholder="O teu nome completo">
+<label for="phone">Número de telefone</label><input id="phone" required inputmode="tel" placeholder="O teu número de telefone">
+<label for="proof">Selecionar captura de ecrã (JPG, PNG ou WEBP; máximo 5 MB)</label>
+<input id="proof" type="file" accept="image/jpeg,image/png,image/webp" required>
+<button type="submit">CONTINUAR PARA WHATSAPP</button>
+</form><div id="result" aria-live="polite"></div></section>
 <section class="panel"><h2>🔎 Consultar inscrição</h2><p>Verifica o estado da tua inscrição.</p><input id="check" placeholder="Código de inscrição"><button id="checkBtn" class="secondary">CONSULTAR ESTADO</button><div id="status"></div></section>
 <section class="panel" id="jogo"><h2>🎯 Área de jogos</h2><p>Já tens um código de acesso? Entra aqui.</p><input id="gameCode" placeholder="Código de acesso"><button id="playBtn">ENTRAR NO JOGO</button><div id="game"></div><a class="arcade" href="arcade.html">🎮 JOGOS ARCADE</a></section>
 </section>
 <footer><b>👑 MJ JOGOS</b><span>🛡️ Jogue com responsabilidade!</span><small>© 2026 MJ Jogos. Todos os direitos reservados. 🇲🇿</small><p>O teu PIN M-Pesa/e-Mola é pessoal. Nunca o partilhes.</p></footer>
 </main><script src="app.js"></script></body></html>
+                                                                                                                                                                              
