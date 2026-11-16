@@ -1,33 +1,98 @@
 <!doctype html>
 <html lang="pt">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Administração - MJ JOGOS</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="wrap"><section class="panel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administração - MJ JOGOS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap"><section class="panel">
 <h1>👑 Administração MJ JOGOS</h1>
-<p>Confirma primeiro no M-Pesa/e-Mola se os 185 MT entraram. Só depois aprova a inscrição.</p>
-<label>Acesso de administrador</label><input id="pass" type="password" autocomplete="current-password" placeholder="Acesso de administrador">
-<button id="load">Ver inscrições</button><div id="msg"></div><div id="list"></div>
+<p>Confirma no canal oficial se o pagamento foi realmente recebido antes de aprovar qualquer inscrição.</p>
+
+<label for="pass">Palavra-passe do administrador</label>
+<input id="pass" type="password" autocomplete="current-password" placeholder="Palavra-passe">
+
+<label for="otp">Código de 6 dígitos do aplicativo autenticador</label>
+<input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+
+<button id="load" type="button">Entrar e ver inscrições</button>
+<div id="msg" role="status" aria-live="polite"></div>
+<div id="list"></div>
 </section></main>
+
 <script>
-const $=id=>document.getElementById(id);
-function auth(){return {"Authorization":"Bearer "+$("pass").value.trim(),"Content-Type":"application/json"};}
-$("load").onclick=async()=>{
- $("msg").textContent="A carregar...";
- try{
-  const r=await fetch("/api/admin/players",{headers:auth()}); const d=await r.json();
-  if(!r.ok)throw Error(d.error||"Erro");
-  $("msg").textContent=d.length+" inscrição(ões).";
-  $("list").innerHTML=d.map(p=>`<article class="panel"><b>${safe(p.name)}</b><p>Telefone: ${safe(p.phone)}<br>Inscrição: ${safe(p.id)}<br>Estado: ${p.status==="approved"?"Aprovada":"Pendente"}</p>${p.status==="approved"?`<p>Código: <b>${safe(p.accessCode||"")}</b></p>`:`<button data-id="${safe(p.id)}">CONFIRMAR PAGAMENTO E APROVAR</button>`}</article>`).join("");
-  $("list").querySelectorAll("button[data-id]").forEach(b=>b.onclick=()=>approve(b.dataset.id));
- }catch(e){$("msg").textContent=e.message;}
-};
-async function approve(id){
- if(!confirm("Confirma que verificaste a entrada dos 185 MT?"))return;
- try{
-  const r=await fetch("/api/admin/approve",{method:"POST",headers:auth(),body:JSON.stringify({id})});
-  const d=await r.json(); if(!r.ok)throw Error(d.error||"Erro");
-  alert("Pagamento aprovado. Código de acesso: "+d.player.accessCode); $("load").click();
- }catch(e){$("msg").textContent=e.message;}
+const $ = id => document.getElementById(id);
+function auth() {
+  return {
+    "X-Admin-Password": $("pass").value,
+    "X-Admin-TOTP": $("otp").value.trim(),
+    "Content-Type": "application/json"
+  };
 }
-function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-</script></body></html>
+function safe(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c =>
+    ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])
+  );
+}
+$("load").onclick = loadPlayers;
+
+async function loadPlayers() {
+  $("msg").textContent = "A verificar credenciais...";
+  $("list").innerHTML = "";
+  try {
+    const r = await fetch("/api/admin/players", { headers: auth() });
+    const d = await r.json();
+    if (!r.ok) throw Error(d.error || "Não foi possível entrar.");
+    $("msg").textContent = d.length + " inscrição(ões).";
+    $("list").innerHTML = d.map(p => `
+      <article class="panel">
+        <b>${safe(p.name)}</b>
+        <p>Telefone: ${safe(p.phone)}<br>
+        Inscrição: ${safe(p.id)}<br>
+        Estado: ${safe(p.status === "approved" ? "Aprovada" : p.status === "blocked" ? "Bloqueada" : "Pendente")}</p>
+        ${p.status === "approved"
+          ? `<p>Código de acesso: <b>${safe(p.accessCode || "")}</b></p><button data-block="${safe(p.id)}" type="button">BLOQUEAR JOGADOR</button>`
+          : p.status === "pending"
+            ? `<button data-approve="${safe(p.id)}" type="button">CONFIRMAR PAGAMENTO E APROVAR</button><button data-block="${safe(p.id)}" type="button">BLOQUEAR</button>`
+            : ""}
+      </article>`).join("");
+
+    $("list").querySelectorAll("[data-approve]").forEach(b =>
+      b.onclick = () => approve(b.dataset.approve)
+    );
+    $("list").querySelectorAll("[data-block]").forEach(b =>
+      b.onclick = () => blockPlayer(b.dataset.block)
+    );
+  } catch (e) {
+    $("msg").textContent = e.message;
+  }
+}
+async function approve(id) {
+  if (!confirm("Só continua se verificaste o recebimento real do pagamento. Aprovar esta inscrição?")) return;
+  await adminAction("/api/admin/approve", id, "Inscrição aprovada.");
+}
+async function blockPlayer(id) {
+  if (!confirm("Queres bloquear este jogador e invalidar o código de acesso?")) return;
+  await adminAction("/api/admin/block", id, "Jogador bloqueado.");
+}
+async function adminAction(url, id, success) {
+  try {
+    const r = await fetch(url, {
+      method: "POST",
+      headers: auth(),
+      body: JSON.stringify({ id })
+    });
+    const d = await r.json();
+    if (!r.ok) throw Error(d.error || "Operação não concluída.");
+    $("msg").textContent = success;
+    await loadPlayers();
+  } catch (e) {
+    $("msg").textContent = e.message;
+  }
+}
+</script>
+</body>
+ </html>
+ 
